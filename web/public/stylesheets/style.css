@@ -1,0 +1,25 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+#filmsTable td, #filmsTable th {
+  border: 1px solid #ddd;
+  padding: 3px;
+}
+
+#filmsTable tr:nth-child(even){background-color: #f2f2f2;}
+
+#filmsTable tr:hover {background-color: #ddd;}
+
+#filmsTable th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #04AA6D;
+  color: white;
+}
