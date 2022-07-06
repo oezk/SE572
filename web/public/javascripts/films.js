@@ -1,5 +1,6 @@
 $(document).ready(function () {
     $('#filmsTable').hide();
+    $('#filmName').val("");
 });
 
 var API = (() => {
@@ -9,7 +10,7 @@ var API = (() => {
         var formData = new FormData(document.forms.filmSubmit);
         var filmName = formData.get('filmName');
 
-        if (filmName.length > 0){
+        if (filmName.trim().length > 0){
             filmArray.push(filmName);
             console.log("Film added: " + filmName);
             alert("Film added: " + filmName);
