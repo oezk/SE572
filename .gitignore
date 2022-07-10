@@ -1,3 +1,4 @@
 .DS_Store
 web/.DS_Store
 web/public/.DS_Store
+films/node_modules

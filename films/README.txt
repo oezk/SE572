@@ -1,0 +1,1 @@
+node_modules was added to gitignore. Remember to run npm install mongoose in films directory

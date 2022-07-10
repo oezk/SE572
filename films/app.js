@@ -2,7 +2,7 @@ const cors = require('cors');
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
-var filmArray = [];
+const Film = require("./src/models/film_model");
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -12,12 +12,14 @@ app.get("/", (req, res) => {
 });
 
 app.get("/api/v1/films", async (req, res) => {
-  res.json(filmArray);
+  const films = await Film.find({});
+  res.json(films);
 });
 
 app.post("/api/v1/films", async (req, res) => {
-  filmArray.push({name: req.body.name});
-  res.json(req.body.name);
+  const film = new Film({ name: req.body.name });
+  const savedFilm = await film.save();
+  res.json(savedFilm);
 });
 
 module.exports = app;
