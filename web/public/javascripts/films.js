@@ -25,7 +25,7 @@ var API = (() => {
 
         if (filmName.trim().length > 0) {
             try {
-                fetch("http://localhost:3001/api/v2/films", {
+                fetch("http://localhost:8080/api/v2/films", {
                     method: 'POST',
                     body: JSON.stringify({ name: filmName.trim(), rating: filmRating }),
                     headers: {
@@ -49,7 +49,7 @@ var API = (() => {
     var getFilms = () => {
 
         try {
-            fetch("http://localhost:3001/api/v2/films", {
+            fetch("http://localhost:8080/api/v2/films", {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
