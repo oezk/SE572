@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const Film = require("./src/models/film_model");
+const jwt = require('jsonwebtoken');
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -11,12 +12,23 @@ app.get("/", (req, res) => {
   res.json({ msg: "films" });
 });
 
+app.post("/api/v1/login", (req, res) => {
+  const user = {
+    username: req.body.username
+  }
+  jwt.sign({ user }, 'secretkey', (err, token) => {
+    res.json({
+      token
+    })
+  });
+});
+
 app.get("/api/v1/films", async (req, res) => {
   const films = await Film.find({});
   res.json(films);
 });
 
-app.post("/api/v1/films", async (req, res) => {
+app.post("/api/v1/films", verifyToken, async (req, res) => {
   try {
     validate_v1(req);
     const film = new Film({ name: req.body.name, rating: 10 });
@@ -32,7 +44,7 @@ app.get("/api/v2/films", async (req, res) => {
   res.json(films);
 });
 
-app.post("/api/v2/films", async (req, res) => {
+app.post("/api/v2/films", verifyToken, async (req, res, next) => {
 
   try {
     validate_v2(req);
@@ -66,6 +78,22 @@ function validateRating(req) {
 
   if (!Number.isFinite(parseInt(req.body.rating)) || req.body.rating < 0 || req.body.rating > 10) {
     throw "{'400 Bad Request': 'Please enter a rating between 0 and 10!'}";
+  }
+}
+
+function verifyToken(req, res, next) {
+  const bearerHeader = req.headers['authorization'];
+  if (typeof bearerHeader !== 'undefined') {
+    const bearerToken = bearerHeader.split(' ')[1];
+    jwt.verify(bearerToken, 'secretkey', (err, authData) => {
+      if (err) {
+        res.sendStatus(403);
+      } else {
+        next();
+      }
+    })
+  } else {
+    res.sendStatus(403);
   }
 }
 

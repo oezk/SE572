@@ -10,9 +10,17 @@
 
 <body>
     <h2>Film Ratings</h2>
+    <form id="loginUser" onsubmit="return API.login()">
+        <div>
+            <label id="loginStatus" for="login">Login:</label><br>
+            <input type="text" id="userName" name="username" placeholder="Enter username">
+            <input id="loginButton" type="submit" value="Login">
+        </div>
+        <br>
+        </div>
+    </form>
     <form id="filmSubmit" onsubmit="return API.createFilm()">
         <div>
-
             <label for="filmName">Film Name:</label><br>
             <input type="text" id="filmName" name="filmName" placeholder="Enter film name">
         </div>
@@ -34,7 +42,7 @@
               <option value="9">9</option>
               <option value="10">10</option>
             </select>
-            <input type="submit" value="Submit">
+            <input type="submit" value="createFilm">
         </div>
     </form>
     <br>
