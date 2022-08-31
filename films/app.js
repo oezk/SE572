@@ -56,6 +56,33 @@ app.post("/api/v2/films", verifyToken, async (req, res, next) => {
   }
 });
 
+app.patch("/api/v2/films", verifyToken, async (req, res, next) => {
+
+  try {
+    validate_v2(req);
+    const filmArray = await Film.find({ name: req.body.name});
+    var film;
+    console.log(filmArray);
+    console.log(filmArray[0]);
+
+    if (filmArray.length > 0){
+      film = filmArray[0];
+      console.log(film);
+    }
+    else {
+      res.status(404).json("404 - Film not found");
+      return;
+    }
+
+    film.rating = req.body.rating;
+    console.log(film);
+    const savedFilm = await film.save();
+    res.json(savedFilm);
+  } catch (errorMessage) {
+    res.status(400).json(errorMessage);
+  }
+});
+
 function validate_v1(req) {
   validateName(req);
 }

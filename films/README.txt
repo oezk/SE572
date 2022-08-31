@@ -2,3 +2,7 @@ node_modules was added to gitignore. Remember to run npm install mongoose in fil
 
 Assignment 5 and onwards:
 Remember to run npm install cors in Hello, films, and web directories
+
+Run the following to run this service:
+
+docker-compose down && docker-compose build && docker-compose up
