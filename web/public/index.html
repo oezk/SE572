@@ -19,7 +19,7 @@
         <br>
         </div>
     </form>
-    <form id="filmSubmit" onsubmit="return API.createFilm()">
+    <form id="filmSubmit" onsubmit="return API.createUpdateFilm()">
         <div>
             <label for="filmName">Film Name:</label><br>
             <input type="text" id="filmName" name="filmName" placeholder="Enter film name">
@@ -43,7 +43,7 @@
               <option value="10">10</option>
             </select>
             <br>
-            <input type="submit" value="Create Film">
+            <input type="submit" value="Create/Update Film">
         </div>
     </form>
     <form id="getFilmsList" onsubmit="return API.getFilms()">

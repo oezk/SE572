@@ -3,6 +3,13 @@ $(document).ready(function () {
     $('#userName').val("");
 });
 
+class Film {
+    constructor(name, rating) {
+      this.name = name;
+      this.rating = rating;
+    }
+  }
+  
 function clearValues(){
     $('#filmsTable').hide();
     $('#filmName').val("");
@@ -10,9 +17,9 @@ function clearValues(){
 }
 
 var API = (() => {
-    var filmArray = [];
+    var filmsList = [];
     var jwtToken;
-    var createFilm = () => {
+    var createUpdateFilm = (filmList) => {
 
         var formData = new FormData(document.forms.filmSubmit);
         var filmName = formData.get('filmName');
@@ -31,9 +38,18 @@ var API = (() => {
 
         if (filmName.trim().length > 0) {
             event.preventDefault();
+
+            var method = "POST";
+
+            filmsList.forEach(film => {
+                if (film.name === filmName){
+                    method = "PATCH";
+                }
+            });
+
             try {
-                fetch("http://localhost:8080/api/v2/films", {
-                    method: 'POST',
+                fetch("http://192.168.0.221:8080/api/v2/films", {
+                    method: method,
                     body: JSON.stringify({ name: filmName.trim(), rating: filmRating }),
                     headers: {
                         'Accept': 'application/json',
@@ -60,12 +76,12 @@ var API = (() => {
             return false;
         }
         return;
-    }
-
-    var getFilms = () => {
+    } 
+    
+    var getFilms = (filmList) => {
 
         try {
-            fetch("http://localhost:8080/api/v2/films", {
+            fetch("http://192.168.0.221:8080/api/v2/films", {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
@@ -85,6 +101,8 @@ var API = (() => {
                         if (data.rating == undefined) {
                             data.rating = "No Rating";
                         }
+                        
+                        filmsList.push(new Film(data.name, data.rating));
                         $("#filmsTable").append("<tr><td>" + data.name + "</td><td>" + data.rating + "</td></tr>");
 
                     });
@@ -101,7 +119,7 @@ var API = (() => {
         const val = document.getElementById("userName").value;
         try {
             if (val.trim().length > 0) {
-            fetch("http://localhost:8080/api/v1/login", {
+            fetch("http://192.168.0.221:8080/api/v1/login", {
                 method: 'POST',
                 body: JSON.stringify({
                     username: val
@@ -131,7 +149,7 @@ var API = (() => {
     }
     
     return {
-        createFilm,
+        createUpdateFilm,
         getFilms,
         login
     }
